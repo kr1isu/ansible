@@ -1,7 +1,5 @@
 ---
 - hosts: docker1
-#  sudo: true
-#  sudo_user: root
   become: yes
   become_user: root
   become_method: sudo
@@ -25,6 +23,7 @@
     - { pkg: 'jwhois' }    
     - { pkg: 'lftp' }    
     - { pkg: 'telnet' }    
+    - { pkg: 'git' }
 
   - name: upgrade all packages
     yum: name=* state=latest
