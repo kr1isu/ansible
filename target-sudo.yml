@@ -1,0 +1,60 @@
+---
+- hosts: test
+#  sudo: true
+#  sudo_user: root
+  become: yes
+  become_user: root
+  become_method: sudo
+  tasks:
+  - name: Install some others packages
+    yum: pkg={{ item.pkg }} state=installed update_cache=true
+    with_items:
+    - { pkg: 'yum-utils' }
+    - { pkg: 'epel-release' }
+    - { pkg: 'unzip' }
+    - { pkg: 'nc' }
+    - { pkg: 'bind-utils' }
+    - { pkg: 'yum-cron' }
+    - { pkg: 'screen' }
+    - { pkg: 'vim' }
+    - { pkg: 'bash-completion' }
+    - { pkg: 'python-pip' }
+    - { pkg: 'mlocate' }
+    - { pkg: 'mutt' }
+    - { pkg: 'figlet' }
+    - { pkg: 'jwhois' }    
+    - { pkg: 'lftp' }    
+    - { pkg: 'telnet' }    
+
+  - name: upgrade all packages
+    yum: name=* state=latest
+  - name: elflord scheme in /etc/vimrc
+    tags: vimrc
+    lineinfile: dest=/etc/vimrc line="\ncolorscheme elflord"
+
+  - name: aliases in /etc/bashrc
+    lineinfile: dest=/etc/bashrc line="\nalias vi=vim"
+
+  - name: update python-pip
+    command: pip install --upgrade pip
+  
+ # - name: generate ssh rsa key
+ #   command:  '[ ! -f ~/.ssh/id_rsa ] && ssh-keygen -t rsa -C "auto_" -N "" -f ~/.ssh/id_rsa'
+
+#  - name: update local /etc/hosts
+#    blockinfile:
+#      dest: /etc/hosts
+#      block: |
+#        {{item.name}} {{item.ip}}
+#      marker: "# {mark} ANSIBLE MANAGED BLOCK {{item.name}}"
+#      with_items:
+#        - { name: foka18a, ip: 10.157.71.225 }
+#        - { name: foka18b, ip: 10.157.71.243 }
+#        - { name: foka18c, ip: 10.157.66.43 }
+#        - { name: krisu-centos1, ip: 10.39.176.51 }
+#        - { name: krisu-centos2, ip: 10.39.176.52 }
+#        - { name: krisu-centos3, ip: 10.39.176.53 }
+
+  - name: local user krisu
+    user: name=krisu shell=/bin/bash groups=adm,wheel append=yes
+
