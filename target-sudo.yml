@@ -24,6 +24,7 @@
     - { pkg: 'lftp' }    
     - { pkg: 'telnet' }    
     - { pkg: 'git' }
+    - { pkg: 'wget' }
 
   - name: upgrade all packages
     yum: name=* state=latest
