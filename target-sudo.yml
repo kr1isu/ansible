@@ -25,6 +25,7 @@
     - { pkg: 'telnet' }    
     - { pkg: 'git' }
     - { pkg: 'wget' }
+    - { pkg: 'net-tools'}
 
   - name: upgrade all packages
     yum: name=* state=latest
